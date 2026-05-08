@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  opensearch:
+    image: opensearchproject/opensearch:2.18.0
+    container_name: opensearch
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "OPENSEARCH_INITIAL_ADMIN_PASSWORD=SamplePassword1!"
+      - "DISABLE_INSTALL_DEMO_CONFIG=false"
+      - "DISABLE_SECURITY_PLUGIN=false"
+      - "OPENSEARCH_SECURITY_SSL_ONLY=true"
+      - plugins.security.ssl.transport.pemcert_filepath=/usr/share/opensearch/config/certs/opensearch.crt
+      - plugins.security.ssl.transport.pemtrustedcas_filepath=/usr/share/opensearch/config/certs/opensearch.crt
+      - plugins.security.ssl.transport.pemkey_filepath=/usr/share/opensearch/config/certs/opensearch.key
+      - plugins.security.ssl.http.enabled=true
+      - plugins.security.ssl.http.pemcert_filepath=/usr/share/opensearch/config/certs/opensearch.crt
+      - plugins.security.ssl.http.pemkey_filepath=/usr/share/opensearch/config/certs/opensearch.key
+      - plugins.security.ssl.http.pemtrustedcas_filepath=/usr/share/opensearch/config/certs/opensearch.crt
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./certs:/usr/share/opensearch/config/certs
+      - opensearch_data:/usr/share/opensearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - logging_network
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:2.18.0
+    container_name: dashboards
+    ports:
+      - "5601:5601"
+    environment:
+      - 'OPENSEARCH_HOSTS=["https://opensearch:9200"]'
+      - OPENSEARCH_SSL_VERIFICATION_MODE=none
+      - "DISABLE_SECURITY_DASHBOARDS_PLUGIN=false"
+    networks:
+      - logging_network
+    depends_on:
+      - opensearch
+
+volumes:
+  opensearch_data:
+
+networks:
+  logging_network:
+    driver: bridge
