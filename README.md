@@ -6,13 +6,21 @@
 Малакаева Софья Юрьевна  
 
 Структура проекта
+
 certs/ - SSL-сертификаты OpenSearch
+
 config/ - конфигурационные файлы OpenSearch
+
 docker-compose.yml - запуск OpenSearch и Dashboards
+
 final_df.csv - итоговый датасет для обучения моделей
+
 обучение модели.ipynb - обучение и оценка моделей ML
+
 opensearch.ipynb - загрузка данных в OpenSearch
+
 opensearch_predicted_students_data.csv - датасет с предсказаниями моделей
+
 .ipynb_checkpoints/ - служебные файлы Jupyter
 
 
