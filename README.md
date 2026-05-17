@@ -15,7 +15,7 @@ docker-compose.yml - запуск OpenSearch и Dashboards
 
 final_df.csv - итоговый датасет для обучения моделей
 
-обучение модели.ipynb - обучение и оценка моделей ML
+обучение модели.ipynb - Feature Engineering, EDA, обучение и оценка моделей ML
 
 opensearch.ipynb - загрузка данных в OpenSearch
 
